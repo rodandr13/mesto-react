@@ -3,6 +3,7 @@ import '../index.css'
 
 import Header from './Header'
 import Main from "./Main";
+import Footer from "./Footer";
 
 function App() {
   return (
@@ -11,10 +12,7 @@ function App() {
         <div className="page">
         <Header logo={logo} />
           <Main />
-
-          <footer className="footer">
-            <p className="footer__copyright">© 2023 Mesto Russia</p>
-          </footer>
+          <Footer />
           <div className="popup popup_type_profile">
             <div className="popup__container">
               <h2 className="popup__header">Редактировать профиль</h2>
