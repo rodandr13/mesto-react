@@ -1,5 +1,6 @@
 import React from "react";
 import api from "../utils/api"
+import Card from "./Card";
 
 
 function Main(props) {
@@ -14,7 +15,7 @@ function Main(props) {
     React.useEffect(() => {
         initialCards
             .then((data) => {
-                setCards([...data]);
+                setCards(data);
             })
             .catch((err) => console.log(err));
     }, []);
@@ -22,7 +23,6 @@ function Main(props) {
     React.useEffect(() => {
         initialProfile
             .then((data) => {
-                console.log(data)
                 setUserName(data.name);
                 setUserDescription(data.about)
                 setUserAvatar(data.avatar);
@@ -53,23 +53,10 @@ function Main(props) {
             <section className="elements">
                 <ul className="elements__list">
                     {
-                        cards.map((item) => (
-                            <li className="element" key={item._id}>
-                                <a className="element__link-full-image" href="#">
-                                    <img src={item.link} alt={item.name} className="element__image" />
-                                </a>
-                                <div className="element__container">
-                                    <h2 className="element__header">{item.name}</h2>
-                                    <div className="element__like-container">
-                                        <button type="button" className="element__button element__button_type_like"
-                                                aria-label="Нравится"></button>
-                                        <p className="element__count-likes">{item.likes.length}</p>
-                                    </div>
-                                </div>
-                                <button type="button" className="element__button element__button_type_remove"
-                                        aria-label="Удалить"></button>
-                            </li>
-                        ))
+                        cards.map((card) => (
+                            <Card card={card} key={card._id} onCardClick={props.onCardClick}/>
+                            )
+                        )
                     }
                 </ul>
             </section>

@@ -13,6 +13,7 @@ function App() {
     const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
     const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
+    const [selectedCard, setSelectedCard] = React.useState({});
 
     function handleEditProfileClick() {
         setEditProfilePopupOpen(true);
@@ -30,6 +31,11 @@ function App() {
         setEditProfilePopupOpen(false);
         setAddPlacePopupOpen(false);
         setEditAvatarPopupOpen(false);
+        setSelectedCard({});
+    }
+
+    function handleCardClick(card) {
+        setSelectedCard(card);
     }
 
     return (
@@ -37,7 +43,7 @@ function App() {
             <div className="root">
                 <div className="page">
                     <Header logo={logo}/>
-                    <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} />
+                    <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick}/>
                     <Footer/>
                     <PopupWithForm title="Редактировать профиль" name="edit-profile" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} textButton="Сохранить" >
                         <input type="text"
@@ -96,7 +102,7 @@ function App() {
                         <span className="form__input-error avatar-link-error"></span>
                     </PopupWithForm>
                     <PopupWithForm title="Вы уверены?" name="confirm" onClose={closeAllPopups} textButton="Да" />
-                    <ImagePopup />
+                    <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
                 </div>
             </div>
