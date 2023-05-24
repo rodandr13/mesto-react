@@ -1,5 +1,6 @@
 function Card(props) {
-    function handleClick() {
+    function handleClick(e) {
+        e.preventDefault();
         props.onCardClick(props.card);
     }
 

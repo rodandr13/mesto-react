@@ -9,6 +9,11 @@ function Main(props) {
     const [userAvatar, setUserAvatar] = React.useState("");
     const [cards, setCards] = React.useState([]);
 
+    function handleAvatarClick(e) {
+        e.preventDefault();
+        props.onEditAvatar();
+    }
+
     React.useEffect(() => {
         api.get('/cards')
             .then((data) => {
@@ -31,7 +36,7 @@ function Main(props) {
         <main className="main">
             <section className="profile">
                 <div className="profile__container">
-                    <a href="src#" onClick={props.onEditAvatar} className="profile__avatar-link">
+                    <a href="#" onClick={handleAvatarClick} className="profile__avatar-link">
                         <img src={userAvatar}
                              alt={`Аватар: ${userName}`}
                              className="profile__avatar"
