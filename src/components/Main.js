@@ -9,6 +9,15 @@ function Main(props) {
     const [cards, setCards] = React.useState([]);
 
     const initialProfile = api.get('/users/me');
+    const initialCards = api.get('/cards');
+
+    React.useEffect(() => {
+        initialCards
+            .then((data) => {
+                setCards([...data]);
+            })
+            .catch((err) => console.log(err));
+    }, []);
 
     React.useEffect(() => {
         initialProfile
@@ -19,7 +28,7 @@ function Main(props) {
                 setUserAvatar(data.avatar);
             })
             .catch((err) => console.log(err));
-    });
+    }, []);
 
     return (
         <main className="main">
@@ -43,7 +52,25 @@ function Main(props) {
             </section>
             <section className="elements">
                 <ul className="elements__list">
-
+                    {
+                        cards.map((item) => (
+                            <li className="element" key={item._id}>
+                                <a className="element__link-full-image" href="#">
+                                    <img src={item.link} alt={item.name} className="element__image" />
+                                </a>
+                                <div className="element__container">
+                                    <h2 className="element__header">{item.name}</h2>
+                                    <div className="element__like-container">
+                                        <button type="button" className="element__button element__button_type_like"
+                                                aria-label="Нравится"></button>
+                                        <p className="element__count-likes">{item.likes.length}</p>
+                                    </div>
+                                </div>
+                                <button type="button" className="element__button element__button_type_remove"
+                                        aria-label="Удалить"></button>
+                            </li>
+                        ))
+                    }
                 </ul>
             </section>
         </main>
