@@ -3,7 +3,7 @@ import api from "../utils/api"
 import Card from "./Card";
 
 
-function Main(props) {
+function Main({onAddPlace, onEditProfile, onEditAvatar, onCardClick}) {
     const [userName, setUserName] = React.useState("");
     const [userDescription, setUserDescription] = React.useState("");
     const [userAvatar, setUserAvatar] = React.useState("");
@@ -11,7 +11,7 @@ function Main(props) {
 
     function handleAvatarClick(e) {
         e.preventDefault();
-        props.onEditAvatar();
+        onEditAvatar();
     }
 
     React.useEffect(() => {
@@ -47,14 +47,14 @@ function Main(props) {
                             <h1 className="profile__header">{userName}</h1>
                             <p className="profile__subheader">{userDescription}</p>
                         </div>
-                        <button onClick={props.onEditProfile}
+                        <button onClick={onEditProfile}
                                 type="button"
                                 className="profile__edit-button"
                                 aria-label="Изменить профиль">
                         </button>
                     </div>
                 </div>
-                <button onClick={props.onAddPlace}
+                <button onClick={onAddPlace}
                         type="button"
                         className="profile__add-button"
                         aria-label="Добавить место">
@@ -64,7 +64,7 @@ function Main(props) {
                 <ul className="elements__list">
                     {
                         cards.map((card) => (
-                            <Card card={card} key={card._id} onCardClick={props.onCardClick}/>
+                            <Card card={card} key={card._id} onCardClick={onCardClick}/>
                             )
                         )
                     }
