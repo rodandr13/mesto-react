@@ -1,7 +1,6 @@
 import React from 'react';
 
 import logo from '../images/header/logo.svg'
-import '../index.css'
 
 import Header from './Header'
 import Main from "./Main";
@@ -43,9 +42,16 @@ function App() {
             <div className="root">
                 <div className="page">
                     <Header logo={logo}/>
-                    <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick}/>
+                    <Main onEditProfile={handleEditProfileClick}
+                          onAddPlace={handleAddPlaceClick}
+                          onEditAvatar={handleEditAvatarClick}
+                          onCardClick={handleCardClick}/>
                     <Footer/>
-                    <PopupWithForm title="Редактировать профиль" name="edit-profile" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} textButton="Сохранить" >
+                    <PopupWithForm title="Редактировать профиль"
+                                   name="edit-profile"
+                                   isOpen={isEditProfilePopupOpen}
+                                   onClose={closeAllPopups}
+                                   textButton="Сохранить">
                         <input type="text"
                                id="profile-name"
                                className="form__input form__input_type_name"
@@ -68,7 +74,11 @@ function App() {
                         />
                         <span className="form__input-error profile-job-error"></span>
                     </PopupWithForm>
-                    <PopupWithForm title="Новое место" name="add-place" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} textButton="Создать" >
+                    <PopupWithForm title="Новое место"
+                                   name="add-place"
+                                   isOpen={isAddPlacePopupOpen}
+                                   onClose={closeAllPopups}
+                                   textButton="Создать">
                         <input
                             type="text"
                             id="image-name"
@@ -90,7 +100,11 @@ function App() {
                         />
                         <span className="form__input-error image-link-error"></span>
                     </PopupWithForm>
-                    <PopupWithForm title="Обновить аватар" name="avatar" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} textButton="Сохранить" >
+                    <PopupWithForm title="Обновить аватар"
+                                   name="avatar"
+                                   isOpen={isEditAvatarPopupOpen}
+                                   onClose={closeAllPopups}
+                                   textButton="Сохранить">
                         <input
                             type="url"
                             id="avatar-link"

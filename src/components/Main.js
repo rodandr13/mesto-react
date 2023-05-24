@@ -9,11 +9,8 @@ function Main(props) {
     const [userAvatar, setUserAvatar] = React.useState("");
     const [cards, setCards] = React.useState([]);
 
-    const initialProfile = api.get('/users/me');
-    const initialCards = api.get('/cards');
-
     React.useEffect(() => {
-        initialCards
+        api.get('/cards')
             .then((data) => {
                 setCards(data);
             })
@@ -21,7 +18,7 @@ function Main(props) {
     }, []);
 
     React.useEffect(() => {
-        initialProfile
+        api.get('/users/me')
             .then((data) => {
                 setUserName(data.name);
                 setUserDescription(data.about)
@@ -36,7 +33,7 @@ function Main(props) {
                 <div className="profile__container">
                     <a href="src#" onClick={props.onEditAvatar} className="profile__avatar-link">
                         <img src={userAvatar}
-                             alt="Аватар: Жак-Ив Кусто"
+                             alt={`Аватар: ${userName}`}
                              className="profile__avatar"
                         />
                     </a>
@@ -45,10 +42,18 @@ function Main(props) {
                             <h1 className="profile__header">{userName}</h1>
                             <p className="profile__subheader">{userDescription}</p>
                         </div>
-                        <button onClick={props.onEditProfile} type="button" className="profile__edit-button" aria-label="Изменить профиль"></button>
+                        <button onClick={props.onEditProfile}
+                                type="button"
+                                className="profile__edit-button"
+                                aria-label="Изменить профиль">
+                        </button>
                     </div>
                 </div>
-                <button onClick={props.onAddPlace} type="button" className="profile__add-button" aria-label="Добавить место"></button>
+                <button onClick={props.onAddPlace}
+                        type="button"
+                        className="profile__add-button"
+                        aria-label="Добавить место">
+                </button>
             </section>
             <section className="elements">
                 <ul className="elements__list">
