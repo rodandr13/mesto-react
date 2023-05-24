@@ -3,7 +3,7 @@ function Main(props) {
         <main className="main">
             <section className="profile">
                 <div className="profile__container">
-                    <a href="src#" className="profile__avatar-link">
+                    <a href="src#" onClick={props.onEditAvatar} className="profile__avatar-link">
                         <img src="<%=require('./images/profile/avatar.jpg')%>"
                              alt="Аватар: Жак-Ив Кусто"
                              className="profile__avatar"
@@ -14,10 +14,10 @@ function Main(props) {
                             <h1 className="profile__header">Жак-Ив Кусто</h1>
                             <p className="profile__subheader">Исследователь океана</p>
                         </div>
-                        <button type="button" className="profile__edit-button" aria-label="Изменить профиль"></button>
+                        <button onClick={props.onEditProfile} type="button" className="profile__edit-button" aria-label="Изменить профиль"></button>
                     </div>
                 </div>
-                <button type="button" className="profile__add-button" aria-label="Добавить место"></button>
+                <button onClick={props.onAddPlace} type="button" className="profile__add-button" aria-label="Добавить место"></button>
             </section>
             <section className="elements">
                 <ul className="elements__list">
