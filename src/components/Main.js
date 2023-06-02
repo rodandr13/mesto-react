@@ -1,13 +1,13 @@
 import React from "react";
 import api from "../utils/api"
 import Card from "./Card";
-
+import {CurrentUserContext} from '../contexts/CurrentUserContext'
 
 function Main({onAddPlace, onEditProfile, onEditAvatar, onCardClick}) {
-    const [userName, setUserName] = React.useState("");
-    const [userDescription, setUserDescription] = React.useState("");
-    const [userAvatar, setUserAvatar] = React.useState("");
+
     const [cards, setCards] = React.useState([]);
+
+    const {name, about, avatar} = React.useContext(CurrentUserContext);
 
     function handleAvatarClick(e) {
         e.preventDefault();
@@ -22,30 +22,22 @@ function Main({onAddPlace, onEditProfile, onEditAvatar, onCardClick}) {
             .catch((err) => console.log(err));
     }, []);
 
-    React.useEffect(() => {
-        api.get('/users/me')
-            .then((data) => {
-                setUserName(data.name);
-                setUserDescription(data.about)
-                setUserAvatar(data.avatar);
-            })
-            .catch((err) => console.log(err));
-    }, []);
+
 
     return (
         <main className="main">
             <section className="profile">
                 <div className="profile__container">
                     <a href="#" onClick={handleAvatarClick} className="profile__avatar-link">
-                        <img src={userAvatar}
-                             alt={`Аватар: ${userName}`}
+                        <img src={avatar}
+                             alt={`Аватар: ${name}`}
                              className="profile__avatar"
                         />
                     </a>
                     <div className="profile__info">
                         <div className="profile__text-container">
-                            <h1 className="profile__header">{userName}</h1>
-                            <p className="profile__subheader">{userDescription}</p>
+                            <h1 className="profile__header">{name}</h1>
+                            <p className="profile__subheader">{about}</p>
                         </div>
                         <button onClick={onEditProfile}
                                 type="button"

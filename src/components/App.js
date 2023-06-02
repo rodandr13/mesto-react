@@ -1,6 +1,6 @@
 import React from 'react';
-
-import logo from '../images/header/logo.svg'
+import api from "../utils/api";
+import logo from '../images/header/logo.svg';
 
 import Header from './Header'
 import Main from "./Main";
@@ -8,11 +8,14 @@ import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 
+import {CurrentUserContext} from "../contexts/CurrentUserContext";
+
 function App() {
     const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
     const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
     const [selectedCard, setSelectedCard] = React.useState({});
+    const [currentUser, setCurrentUser] = React.useState({});
 
     function handleEditProfileClick() {
         setEditProfilePopupOpen(true);
@@ -37,7 +40,16 @@ function App() {
         setSelectedCard(card);
     }
 
+    React.useEffect(() => {
+        api.get('/users/me')
+            .then((data) => {
+                setCurrentUser(data);
+            })
+            .catch((err) => console.log(err));
+    }, []);
+
     return (
+        <CurrentUserContext.Provider value={currentUser}>
         <div className="App">
             <div className="root">
                 <div className="page">
@@ -121,6 +133,7 @@ function App() {
                 </div>
             </div>
         </div>
+        </CurrentUserContext.Provider>
     );
 }
 
