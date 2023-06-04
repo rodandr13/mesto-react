@@ -1,11 +1,8 @@
 import React from "react";
-import api from "../utils/api"
 import Card from "./Card";
 import {CurrentUserContext} from '../contexts/CurrentUserContext'
 
-function Main({onAddPlace, onEditProfile, onEditAvatar, onCardClick, onCardLike}) {
-
-    const [cards, setCards] = React.useState([]);
+function Main({onAddPlace, onEditProfile, onEditAvatar, onCardClick, onCardLike, cards}) {
 
     const {name, about, avatar} = React.useContext(CurrentUserContext);
 
@@ -13,15 +10,6 @@ function Main({onAddPlace, onEditProfile, onEditAvatar, onCardClick, onCardLike}
         e.preventDefault();
         onEditAvatar();
     }
-
-    React.useEffect(() => {
-        api.get('/cards')
-            .then((data) => {
-                setCards(data);
-            })
-            .catch((err) => console.log(err));
-    }, []);
-
 
 
     return (

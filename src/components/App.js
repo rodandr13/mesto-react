@@ -46,8 +46,11 @@ function App() {
         const isLiked = card.likes.some(i => i._id === currentUser._id);
 
         // Отправляем запрос в API и получаем обновлённые данные карточки
-        api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-            setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+        api.changeLikeCardStatus(card._id, !isLiked)
+            .then((newCard) => {
+                setCards((state) => state.map(
+                    (c) => c._id === card._id ? newCard : c)
+                );
         });
     }
 
@@ -55,6 +58,12 @@ function App() {
         api.get('/users/me')
             .then((data) => {
                 setCurrentUser(data);
+            })
+            .catch((err) => console.log(err));
+
+        api.get('/cards')
+            .then((data) => {
+                setCards(data);
             })
             .catch((err) => console.log(err));
     }, []);
@@ -70,6 +79,7 @@ function App() {
                           onEditAvatar={handleEditAvatarClick}
                           onCardClick={handleCardClick}
                           onCardLike={handleCardLike}
+                          cards={cards}
                     />
                     <Footer/>
                     <PopupWithForm title="Редактировать профиль"
