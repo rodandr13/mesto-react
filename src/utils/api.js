@@ -56,6 +56,13 @@ class Api {
       method: 'DELETE'
     })
   }
+
+  changeLikeCardStatus(cardId, isLiked) {
+    if (isLiked) {
+      return this.put(`/cards/${cardId}/likes`);
+    }
+    return this.delete(`/cards/${cardId}/likes`);
+  }
 }
 
 

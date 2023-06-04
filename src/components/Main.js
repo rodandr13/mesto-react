@@ -3,7 +3,7 @@ import api from "../utils/api"
 import Card from "./Card";
 import {CurrentUserContext} from '../contexts/CurrentUserContext'
 
-function Main({onAddPlace, onEditProfile, onEditAvatar, onCardClick}) {
+function Main({onAddPlace, onEditProfile, onEditAvatar, onCardClick, onCardLike}) {
 
     const [cards, setCards] = React.useState([]);
 
@@ -56,7 +56,7 @@ function Main({onAddPlace, onEditProfile, onEditAvatar, onCardClick}) {
                 <ul className="elements__list">
                     {
                         cards.map((card) => (
-                            <Card card={card} key={card._id} onCardClick={onCardClick}/>
+                            <Card card={card} key={card._id} onCardClick={onCardClick} onCardLike={onCardLike}/>
                             )
                         )
                     }

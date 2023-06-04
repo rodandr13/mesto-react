@@ -16,6 +16,7 @@ function App() {
     const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
     const [selectedCard, setSelectedCard] = React.useState({});
     const [currentUser, setCurrentUser] = React.useState({});
+    const [cards, setCards] = React.useState([]);
 
     function handleEditProfileClick() {
         setEditProfilePopupOpen(true);
@@ -40,6 +41,16 @@ function App() {
         setSelectedCard(card);
     }
 
+    function handleCardLike(card) {
+        // Снова проверяем, есть ли уже лайк на этой карточке
+        const isLiked = card.likes.some(i => i._id === currentUser._id);
+
+        // Отправляем запрос в API и получаем обновлённые данные карточки
+        api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+            setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+        });
+    }
+
     React.useEffect(() => {
         api.get('/users/me')
             .then((data) => {
@@ -57,7 +68,9 @@ function App() {
                     <Main onEditProfile={handleEditProfileClick}
                           onAddPlace={handleAddPlaceClick}
                           onEditAvatar={handleEditAvatarClick}
-                          onCardClick={handleCardClick}/>
+                          onCardClick={handleCardClick}
+                          onCardLike={handleCardLike}
+                    />
                     <Footer/>
                     <PopupWithForm title="Редактировать профиль"
                                    name="edit-profile"

@@ -1,24 +1,41 @@
-function Card(props) {
+import React from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+
+function Card({card, onCardClick, onCardLike}) {
+
+    const currentUser = React.useContext(CurrentUserContext);
+    const isOwn = card.owner._id === currentUser._id;
+
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const cardLikeButtonClassName = (
+        `element__button element__button_type_like ${isLiked && 'element__button_like-active'}`
+    );
+
+
     function handleClick(e) {
         e.preventDefault();
-        props.onCardClick(props.card);
+        onCardClick(card);
+    }
+
+    function handleLikeClick() {
+        onCardLike(card);
     }
 
     return (
         <li className="element">
             <a onClick={handleClick} className="element__link-full-image" href="#">
-                <img src={props.card.link} alt={props.card.name} className="element__image"/>
+                <img src={card.link} alt={card.name} className="element__image"/>
             </a>
             <div className="element__container">
-                <h2 className="element__header">{props.card.name}</h2>
+                <h2 className="element__header">{card.name}</h2>
                 <div className="element__like-container">
-                    <button type="button" className="element__button element__button_type_like"
+                    <button onClick={handleLikeClick} type="button" className={cardLikeButtonClassName}
                             aria-label="Нравится"></button>
-                    <p className="element__count-likes">{props.card.likes.length}</p>
+                    <p className="element__count-likes">{card.likes.length}</p>
                 </div>
             </div>
-            <button type="button" className="element__button element__button_type_remove"
-                    aria-label="Удалить"></button>
+            {isOwn && <button type="button" className="element__button element__button_type_remove"
+                              aria-label="Удалить"></button>}
         </li>
     )
 }
