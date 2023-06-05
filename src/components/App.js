@@ -48,18 +48,14 @@ function App() {
         // Отправляем запрос в API и получаем обновлённые данные карточки
         api.changeLikeCardStatus(card._id, !isLiked)
             .then((newCard) => {
-                setCards((state) => state.map(
-                    (c) => c._id === card._id ? newCard : c)
-                );
+                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
             });
     }
 
     function handleCardDelete(card) {
         api.delete(`/cards/${card._id}`)
             .then(() => {
-                    setCards(
-                        cards.filter((item) => item._id !== card._id)
-                    );
+                    setCards((state) => state.filter((c) => c._id !== card._id));
                 }
             )
             .catch((err) => {
