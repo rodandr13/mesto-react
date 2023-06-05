@@ -7,6 +7,7 @@ import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
+import EditProfilePopup from "./EditProfilePopup";
 
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
@@ -42,10 +43,7 @@ function App() {
     }
 
     function handleCardLike(card) {
-        // Снова проверяем, есть ли уже лайк на этой карточке
         const isLiked = card.likes.some(i => i._id === currentUser._id);
-
-        // Отправляем запрос в API и получаем обновлённые данные карточки
         api.changeLikeCardStatus(card._id, !isLiked)
             .then((newCard) => {
                 setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
@@ -58,6 +56,17 @@ function App() {
                     setCards((state) => state.filter((c) => c._id !== card._id));
                 }
             )
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    function handleUpdateUser(user) {
+        api.patch('/users/me', user)
+            .then((data) => {
+                setCurrentUser(data);
+            })
+            .then(() => closeAllPopups())
             .catch((err) => {
                 console.log(err);
             });
@@ -85,33 +94,7 @@ function App() {
                               onCardDelete={handleCardDelete}
                         />
                         <Footer/>
-                        <PopupWithForm title="Редактировать профиль"
-                                       name="edit-profile"
-                                       isOpen={isEditProfilePopupOpen}
-                                       onClose={closeAllPopups}
-                                       textButton="Сохранить">
-                            <input type="text"
-                                   id="profile-name"
-                                   className="form__input form__input_type_name"
-                                   name="name"
-                                   placeholder="Имя"
-                                   minLength="2"
-                                   maxLength="40"
-                                   required
-                            />
-                            <span className="form__input-error profile-name-error"></span>
-                            <input
-                                type="text"
-                                id="profile-job"
-                                className="form__input form__input_type_job"
-                                name="about"
-                                placeholder="Деятельность"
-                                minLength="2"
-                                maxLength="200"
-                                required
-                            />
-                            <span className="form__input-error profile-job-error"></span>
-                        </PopupWithForm>
+                        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
                         <PopupWithForm title="Новое место"
                                        name="add-place"
                                        isOpen={isAddPlacePopupOpen}
