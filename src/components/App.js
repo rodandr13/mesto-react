@@ -10,6 +10,7 @@ import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
 
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 function App() {
     const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
@@ -72,6 +73,17 @@ function App() {
             });
     }
 
+    function handleUpdateAvatar(data) {
+        api.patch('/users/me/avatar', data)
+            .then((data) => {
+                setCurrentUser(data);
+            })
+            .then(() => closeAllPopups())
+            .catch((err) => {
+                console.error(err);
+            })
+    }
+
     React.useEffect(() => {
         api.get('/users/me')
             .then((data) => {
@@ -95,6 +107,7 @@ function App() {
                         />
                         <Footer/>
                         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
+                        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
                         <PopupWithForm title="Новое место"
                                        name="add-place"
                                        isOpen={isAddPlacePopupOpen}
@@ -121,24 +134,8 @@ function App() {
                             />
                             <span className="form__input-error image-link-error"></span>
                         </PopupWithForm>
-                        <PopupWithForm title="Обновить аватар"
-                                       name="avatar"
-                                       isOpen={isEditAvatarPopupOpen}
-                                       onClose={closeAllPopups}
-                                       textButton="Сохранить">
-                            <input
-                                type="url"
-                                id="avatar-link"
-                                className="form__input form__input_type_avatar-link"
-                                name="avatar"
-                                placeholder="Ссылка на картинку"
-                                required
-                            />
-                            <span className="form__input-error avatar-link-error"></span>
-                        </PopupWithForm>
                         <PopupWithForm title="Вы уверены?" name="confirm" onClose={closeAllPopups} textButton="Да"/>
                         <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
-
                     </div>
                 </div>
             </div>
