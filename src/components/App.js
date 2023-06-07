@@ -20,6 +20,14 @@ function App() {
     const [currentUser, setCurrentUser] = React.useState({});
     const [cards, setCards] = React.useState([]);
 
+    React.useEffect(() => {
+        api.get('/cards')
+            .then((data) => {
+                setCards(data);
+            })
+            .catch((err) => console.log(err));
+    }, []);
+
     function handleEditProfileClick() {
         setEditProfilePopupOpen(true);
     }
@@ -104,6 +112,7 @@ function App() {
                               onCardClick={handleCardClick}
                               onCardLike={handleCardLike}
                               onCardDelete={handleCardDelete}
+                              cards={cards}
                         />
                         <Footer/>
                         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
