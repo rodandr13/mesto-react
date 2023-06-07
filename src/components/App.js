@@ -11,6 +11,7 @@ import EditProfilePopup from "./EditProfilePopup";
 
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 
 function App() {
     const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
@@ -92,6 +93,17 @@ function App() {
             })
     }
 
+    function handleAddPlaceSubmit(newCard) {
+        api.post('/cards', newCard)
+            .then((card) => {
+                setCards([card, ...cards]);
+            })
+            .then(() => closeAllPopups())
+            .catch((err) => {
+                console.error(err);
+            })
+    }
+
     React.useEffect(() => {
         api.get('/users/me')
             .then((data) => {
@@ -117,32 +129,7 @@ function App() {
                         <Footer/>
                         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
                         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
-                        <PopupWithForm title="Новое место"
-                                       name="add-place"
-                                       isOpen={isAddPlacePopupOpen}
-                                       onClose={closeAllPopups}
-                                       textButton="Создать">
-                            <input
-                                type="text"
-                                id="image-name"
-                                className="form__input form__input_type_image-name"
-                                name="name"
-                                placeholder="Название"
-                                minLength="2"
-                                maxLength="30"
-                                required
-                            />
-                            <span className="form__input-error image-name-error"></span>
-                            <input
-                                type="url"
-                                id="image-link"
-                                className="form__input form__input_type_image-link"
-                                name="link"
-                                placeholder="Ссылка на картинку"
-                                required
-                            />
-                            <span className="form__input-error image-link-error"></span>
-                        </PopupWithForm>
+                        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit}/>
                         <PopupWithForm title="Вы уверены?" name="confirm" onClose={closeAllPopups} textButton="Да"/>
                         <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
                     </div>
